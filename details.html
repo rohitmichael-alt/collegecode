@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <link rel="stylesheet" href="renderer/styles.css">
+</head>
+<body>
+    <div class="details-container">
+        <div class="details-box">
+            <h2>Enter Your Details</h2>
+            <form id="details-form">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" required>
+
+                <label for="city">City:</label>
+                <input type="text" id="city" required>
+
+                <label for="language">Preferred Language:</label>
+                <select id="language" required>
+                    <option value="English">English</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                    <option value="German">German</option>
+                </select>
+
+                <button type="submit">Okay</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="renderer/details.js"></script>
+</body>
+</html>
