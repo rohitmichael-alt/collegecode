@@ -1,0 +1,32 @@
+<!-- profile.html -->
+<div class="profile-container">
+    <h2>👤 User Profile</h2>
+    <div class="user-section">
+        <label>Name:</label>
+        <input type="text" id="userName" placeholder="Your Name">
+
+        <label>Email:</label>
+        <input type="email" id="userEmail" placeholder="Your Email">
+
+        <label>Phone:</label>
+        <input type="tel" id="userPhone" placeholder="Your Phone">
+
+        <button onclick="saveUserDetails()">💾 Save User Details</button>
+    </div>
+
+    <h2>❤️ Loved Ones</h2>
+    <div class="loved-ones-section">
+        <div id="lovedOnesList"></div>
+
+        <h4>Add Loved One</h4>
+        <input type="text" id="lovedOneName" placeholder="Name">
+        <input type="text" id="relationship" placeholder="Relationship (e.g., Partner)">
+        <input type="tel" id="lovedOnePhone" placeholder="Contact Number">
+
+        <button onclick="addLovedOne()">➕ Add Loved One</button>
+    </div>
+
+    <button id="backHomeBtn">🔙 Back to Home</button>
+</div>
+
+<script src="profile.js"></script>

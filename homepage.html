@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memolink - Homepage</title>
     <link rel="stylesheet" href="renderer/styles.css">
 </head>
+
 <body>
     <header>
         <div id="top-bar">
@@ -16,16 +18,16 @@
             <div id="menu-icon">&#9776;</div>
         </div>
     </header>
-    
+
     <section id="profile-section">
         <img id="profile-pic" src="renderer/profile-placeholder.png" alt="Profile Picture" class="profile-pic">
         <span id="username">User</span>
     </section>
-    
+
     <section class="quote-container">
         <p id="quote-box">Loading....</p>
     </section>
-    
+
     <section id="features">
         <div class="feature-box" id="love" onclick="navigateTo('love.html')">
             <h3>My Loved Ones</h3>
@@ -40,26 +42,26 @@
             <h3>Surveys</h3>
         </div>
     </section>
-    
-    <!-- Bottom Navigation Icons -->
+
     <nav id="bottom-nav">
-        <div class="nav-icon"><img src="renderer/icons/notes.png" alt="Notes"></div>
-        <div class="nav-icon"><img src="renderer/icons/gift.png" alt="Gift"></div>
-        <div class="nav-icon"><img src="renderer/icons/heart-lock.png" alt="Heart Lock"></div>
+        <div class="nav-icon" id="notes-btn"><img src="renderer/icons/notes.png" alt="Notes"></div>
+        <div class="nav-icon" id="gift-btn"><img src="renderer/icons/gift.png" alt="Gift"></div>
+        <div class="nav-icon" id="heartlock-btn"><img src="renderer/icons/heart-lock.png" alt="Heart Lock"></div>
         <div class="nav-icon"><img src="renderer/icons/camera.png" alt="Camera"></div>
-        <div class="nav-icon"><img src="renderer/icons/profile.png" alt="Profile"></div>
+        <div class="nav-icon" id="profile-btn"><img src="renderer/icons/profile.png" alt="Profile"></div>
+
     </nav>
+
+    <div id="dynamic-content"></div>
 
     <script>
         function navigateTo(page) {
             window.location.href = page;
         }
-    </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", () => {
             const quoteBox = document.getElementById("quote-box");
-    
+
             fetch("https://api.quotable.io/random")
                 .then(response => response.json())
                 .then(data => {
@@ -69,9 +71,73 @@
                     console.error("Error fetching quote:", error);
                     quoteBox.textContent = "Failed to load quote. Try again!";
                 });
+
+            const buttons = [
+                { id: 'notes-btn', page: 'notes.html' },
+                { id: 'gift-btn', page: 'gift.html', extraScript: 'gift.js' },
+                { id: 'heartlock-btn', page: 'heartlock.html' }
+            ];
+
+            buttons.forEach(btn => {
+                const element = document.getElementById(btn.id);
+                element.addEventListener('click', () => {
+                    fetch(btn.page)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('profile-section').style.display = 'none';
+                            document.getElementById('features').style.display = 'none';
+                            document.getElementById('bottom-nav').style.display = 'none';
+                            document.querySelector('.quote-container').style.display = 'none';
+                            document.getElementById('dynamic-content').innerHTML = html;
+
+                            if (btn.extraScript) {
+                                const script = document.createElement('script');
+                                script.src = btn.extraScript;
+                                document.body.appendChild(script);
+                            }
+
+                            const backBtn = document.getElementById('backHomeBtn');
+                            if (backBtn) {
+                                backBtn.addEventListener('click', () => {
+                                    document.getElementById('profile-section').style.display = 'block';
+                                    document.getElementById('features').style.display = 'grid';
+                                    document.getElementById('bottom-nav').style.display = 'flex';
+                                    document.querySelector('.quote-container').style.display = 'block';
+                                    document.getElementById('dynamic-content').innerHTML = '';
+                                });
+                            }
+                        })
+                        .catch(err => console.error(`Error loading ${btn.page}:`, err));
+                });
+            });
         });
+        document.addEventListener('DOMContentLoaded', () => {
+    const profileBtn = document.querySelector('#bottom-nav .nav-icon:last-child'); // Assuming the last icon is Profile
+    profileBtn.addEventListener('click', () => {
+        fetch('profile.html')
+            .then(response => response.text())
+            .then(html => {
+                // Hide homepage elements
+                document.getElementById('profile-section').style.display = 'none';
+                document.getElementById('features').style.display = 'none';
+                document.getElementById('bottom-nav').style.display = 'none';
+                document.querySelector('.quote-container').style.display = 'none';
+
+                // Load Profile UI
+                document.getElementById('dynamic-content').innerHTML = html;
+
+                // Dynamically load profile.js
+                const script = document.createElement('script');
+                script.src = 'profile.js';
+                document.body.appendChild(script);
+            })
+            .catch(err => console.error('Error loading Profile page:', err));
+    });
+});
+
     </script>
 
     <script src="renderer/homepage.js"></script>
 </body>
+
 </html>

@@ -15,7 +15,7 @@ app.whenReady().then(() => {
         frame: false, // Hides default window decorations to mimic mobile app
     });
 
-    mainWindow.loadFile("login.html"); // Start with login page
+    mainWindow.loadFile("homepage.html"); // Start with login page
 });
 
 // Quit when all windows are closed

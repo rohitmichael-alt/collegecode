@@ -1,0 +1,57 @@
+x<div class="notes-container">
+    <h2>🌸 Memorable Moments</h2>
+
+    <textarea id="noteInput" placeholder="Write about your special moments..."></textarea>
+
+    <button onclick="saveNote()">💾 Save Note</button>
+
+    <!-- Feedback message -->
+    <p id="feedbackMessage" style="color: green; display: none;">Note Saved ✅</p>
+
+    <div id="notesList">
+        <h3>✨ Your Notes</h3>
+        <ul id="noteItems"></ul>
+
+        <button id="backHomeBtn" style="margin-top: 20px;">🔙 Back to Home</button>
+
+    </div>
+</div>
+
+<script>
+    // Load notes from localStorage on page load
+    window.onload = loadNotes;
+
+    function saveNote() {
+        const noteInput = document.getElementById('noteInput');
+        const noteText = noteInput.value.trim();
+
+        if (noteText === "") return;
+
+        let notes = JSON.parse(localStorage.getItem('memolink_notes')) || [];
+        notes.push(noteText);
+        localStorage.setItem('memolink_notes', JSON.stringify(notes));
+
+        // Show feedback
+        const feedback = document.getElementById('feedbackMessage');
+        feedback.style.display = 'block';
+        setTimeout(() => { feedback.style.display = 'none'; }, 2000);
+
+        // Clear input
+        noteInput.value = "";
+
+        // Reload notes list
+        loadNotes();
+    }
+
+    function loadNotes() {
+        const noteItems = document.getElementById('noteItems');
+        noteItems.innerHTML = "";
+
+        let notes = JSON.parse(localStorage.getItem('memolink_notes')) || [];
+        notes.forEach(note => {
+            const li = document.createElement('li');
+            li.textContent = note;
+            noteItems.appendChild(li);
+        });
+    }
+</script>
