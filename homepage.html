@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memolink - Homepage</title>
     <link rel="stylesheet" href="renderer/styles.css">
+    <style>
+        /* Add styles for the new music button */
+        .nav-icon {
+            cursor: pointer;
+            padding: 10px;
+        }
+        .question-modal {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .question-modal button {
+            margin: 5px;
+        }
+    </style>
 </head>
-
 <body>
     <header>
         <div id="top-bar">
             <div id="app-logo">
-                <img src="renderer/memo.png" >
+                <img src="renderer/memo.png" alt="Memolink Logo">
                 <span>Memolink✨</span>
             </div>
             <div id="menu-icon" onclick="navigateTo('settings.html')">&#9776;</div>
-            
         </div>
     </header>
 
     <section id="profile-section">
-        <img id="profile-pic" src="renderer/profile.png"  class="profile-pic">
+        <img id="profile-pic" src="renderer/profile.png" alt="Profile Picture" class="profile-pic">
         <span id="username">User</span>
     </section>
 
@@ -47,12 +65,20 @@
     <nav id="bottom-nav">
         <div class="nav-icon" id="notes-btn">Notes🗒️</div>
         <div class="nav-icon" id="gift-btn">Gift🎁</div>
-        <div class="nav-icon" id="heartlock-btn">Memo💗</div>
-        <div class="nav-icon">Cam📸</div>
-
+        <div class="nav-icon" id="music-btn" onclick="openMusicModal()">Music🎶</div>
     </nav>
 
     <div id="dynamic-content"></div>
+
+    <!-- Music Question Modal -->
+    <div id="music-modal" class="question-modal">
+        <h3>Hey there! How are you feeling today?</h3>
+        <button onclick="suggestPlaylist('happy')">Happy</button>
+        <button onclick="suggestPlaylist('sad')">Sad</button>
+        <button onclick="suggestPlaylist('angry')">Angry</button>
+        <button onclick="suggestPlaylist('sleepy')">Sleepy</button>
+        <button onclick="closeMusicModal()">Cancel</button>
+    </div>
 
     <script>
         function navigateTo(page) {
@@ -74,9 +100,7 @@
 
             const buttons = [
                 { id: 'notes-btn', page: 'notes.html' },
-                { id: 'gift-btn', page: 'gift.html', extraScript: 'gift.js' },
-                { id: 'heartlock-btn', page: 'heartlock.html' },
-                {id: 'cam-btn ' , page: 'cam.html'}
+                { id: 'gift-btn', page: 'gift.html' }
             ];
 
             buttons.forEach(btn => {
@@ -90,12 +114,6 @@
                             document.getElementById('bottom-nav').style.display = 'none';
                             document.querySelector('.quote-container').style.display = 'none';
                             document.getElementById('dynamic-content').innerHTML = html;
-
-                            if (btn.extraScript) {
-                                const script = document.createElement('script');
-                                script.src = btn.extraScript;
-                                document.body.appendChild(script);
-                            }
 
                             const backBtn = document.getElementById('backHomeBtn');
                             if (backBtn) {
@@ -111,34 +129,47 @@
                         .catch(err => console.error(`Error loading ${btn.page}:`, err));
                 });
             });
+
+            // Load profile picture from local storage
+            const profilePic = localStorage.getItem("profilePic");
+            if (profilePic) {
+                document.getElementById("profile-pic").src = profilePic;
+            }
         });
-        document.addEventListener('DOMContentLoaded', () => {
-    const profileBtn = document.querySelector('#bottom-nav .nav-icon:last-child'); // Assuming the last icon is Profile
-    profileBtn.addEventListener('click', () => {
-        fetch('profile.html')
-            .then(response => response.text())
-            .then(html => {
-                // Hide homepage elements
-                document.getElementById('profile-section').style.display = 'none';
-                document.getElementById('features').style.display = 'none';
-                document.getElementById('bottom-nav').style.display = 'none';
-                document.querySelector('.quote-container').style.display = 'none';
 
-                // Load Profile UI
-                document.getElementById('dynamic-content').innerHTML = html;
+        function openMusicModal() {
+            document.getElementById("music-modal").style.display = "block";
+        }
 
-                // Dynamically load profile.js
-                const script = document.createElement('script');
-                script.src = 'profile.js';
-                document.body.appendChild(script);
-            })
-            .catch(err => console.error('Error loading Profile page:', err));
-    });
-});
+        function closeMusicModal() {
+            document.getElementById("music-modal").style.display = "none";
+        }
+
+       
+            const { shell } = require('electron');
+
+ function suggestPlaylist(mood) {
+    let link = '';
+    switch (mood) {
+        case 'happy':
+            link = 'https://www.youtube.com/watch?v=Cc_cNEjAh_Y&list=PL8U7gDbfLksNOQ-IbN_jfC9DVQYt4xXTo';
+            break;
+        case 'sad':
+            link = 'https://www.youtube.com/watch?v=Xk3O6Pr1HGY';
+            break;
+        case 'angry':
+            link = 'https://www.youtube.com/watch?v=WqocXW4JUdk';
+            break;
+        case 'sleepy':
+            link = 'https://www.youtube.com/watch?v=hbEAyIuQqlI';
+            break;
+    }
+    shell.openExternal(link); // This will open the link in the default browser
+    closeMusicModal();
+}
 
     </script>
 
     <script src="renderer/homepage.js"></script>
 </body>
-
 </html>

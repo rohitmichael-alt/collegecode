@@ -1,6 +1,156 @@
-<button onclick="goBack()">Back</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #fff4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #ff8c94;
+            padding: 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-top: 40px; /* Added margin to separate from the top */
+        }
+        .back-button {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        .container {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ff5ca7;
+            border-radius: 5px;
+            resize: none;
+        }
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .save-button {
+            background-color: #ff5ca7;
+            color: white;
+            font-weight: bold;
+        }
+        .saved-notes {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff5ca7;
+            text-align: left;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .note {
+            display: flex;
+            justify-content: space-between;
+            background: #ffe0e0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        .delete-button {
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="homepage.html" class="back-button">← Back</a> 
+
+    <div class="header">
+        Heyyy! You can store any reminder !!! ✨
+    </div>
+
+    <div class="container">
+        <textarea id="note" placeholder="Write your note..."></textarea>
+        <button class="save-button" onclick="saveNote()">Save</button>
+
+        <div id="savedNotes" class="saved-notes"></div>
+    </div>
+
     <script>
-        function goBack() {
-            window.location.href = "homepage.html";
+        document.addEventListener("DOMContentLoaded", loadNotes);
+
+        function saveNote() {
+            let noteText = document.getElementById("note").value.trim();
+            if (noteText === "") {
+                alert("Please write a note!");
+                return;
+            }
+
+            let notes = JSON.parse(localStorage.getItem("notes")) || [];
+            notes.push(noteText);
+            localStorage.setItem("notes", JSON.stringify(notes));
+
+            document.getElementById("note").value = "";
+            loadNotes();
+        }
+
+        function loadNotes() {
+            let display = document.getElementById("savedNotes");
+            display.innerHTML = ""; 
+            
+            let notes = JSON.parse(localStorage.getItem("notes")) || [];
+            notes.forEach((note, index) => {
+                let noteElement = document.createElement("div");
+                noteElement.className = "note";
+                noteElement.innerHTML = `
+                    <span>💖 ${note}</span>
+                    <button class="delete-button" onclick="deleteNote(${index})">X</button>
+                `;
+                display.appendChild(noteElement);
+            });
+        }
+
+        function deleteNote(index) {
+            let notes = JSON.parse(localStorage.getItem("notes")) || [];
+            notes.splice(index, 1);
+            localStorage.setItem("notes", JSON.stringify(notes));
+            loadNotes();
         }
     </script>
+
+</body>
+</html>

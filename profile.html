@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Profile Picture</title>
+    <link rel="stylesheet" href="renderer/styles.css">
+</head>
+<body>
+    <header>
+        <button id="backBtn" onclick="navigateBack()">← Back</button>
+        <h2>Change Profile Picture</h2>
+    </header>
+    <section>
+        <input type="file" id="fileInput" accept="image/*" required>
+        <button id="saveProfilePicBtn">Save</button>
+    </section>
+
+    <script>
+        document.getElementById("saveProfilePicBtn").addEventListener("click", () => {
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    localStorage.setItem("profilePic", reader.result);
+                    navigateBack();
+                }
+                reader.readAsDataURL(file);
+            } else {
+                alert("Please choose a file.");
+            }
+        });
+
+        function navigateBack() {
+            window.location.href = "settings.html"; 
+        }
+    </script>
+</body>
+</html>
