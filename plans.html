@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Plans Survey</title>
+    <link rel="stylesheet" href="renderer/survey.css">
+    <button class="back-button" onclick="goBack()">Back</button>
+
+    <script>
+        function goBack() {
+            window.location.href = "surveys.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="survey-container">
+        <h2>Future Plans</h2>
+        <div id="survey-questions"></div>
+        <button id="submit-btn" onclick="submitSurvey()">Submit</button>
+        <div id="summary" class="hidden"></div>
+        
+    </div>
+
+    <script>
+        const surveyData = [
+            { question: "Do you discuss future goals together?", type: "likert" },
+            { question: "Are your long-term goals aligned?", type: "mcq", options: ["Yes", "No", "Unsure"] },
+            { question: "Do you make financial plans together?", type: "mcq", options: ["Yes", "No", "Sometimes"] },
+            { question: "How often do you talk about life changes (career, family, etc.)?", type: "likert" },
+            { question: "Do you actively plan trips or events together?", type: "mcq", options: ["Yes", "No", "Occasionally"] }
+        ];
+
+        function loadSurvey() {
+            const container = document.getElementById("survey-questions");
+            surveyData.forEach((q, index) => {
+                let html = `<p>${q.question}</p>`;
+                if (q.type === "likert") {
+                    for (let i = 1; i <= 5; i++) {
+                        html += `<input type='radio' name='q${index}' value='${i}'> ${i} `;
+                    }
+                } else {
+                    q.options.forEach(option => {
+                        html += `<input type='radio' name='q${index}' value='${option}'> ${option} `;
+                    });
+                }
+                container.innerHTML += `<div class='question'>${html}</div>`;
+            });
+        }
+
+        function submitSurvey() {
+            const responses = [];
+            document.querySelectorAll(".question").forEach((q, index) => {
+                const selected = document.querySelector(`input[name='q${index}']:checked`);
+                if (selected) responses.push(selected.value);
+            });
+            localStorage.setItem("plans", JSON.stringify(responses));
+            showSummary(responses);
+        }
+
+        function showSummary(responses) {
+            const summary = document.getElementById("summary");
+            let score = 0;
+            responses.forEach(res => {
+                if (!isNaN(res)) score += parseInt(res);
+            });
+            let avgScore = score / responses.length;
+            let suggestion = avgScore < 3 ? "Consider aligning your future plans to avoid conflicts." : "Great job planning ahead!";
+            summary.innerHTML = `<h3>Survey Summary</h3><p>Average Score: ${avgScore.toFixed(2)}</p><p><strong>Suggestion:</strong> ${suggestion}</p>`;
+            summary.classList.remove("hidden");
+        }
+
+        
+
+        window.onload = loadSurvey;
+    </script>
+</body>
+</html>

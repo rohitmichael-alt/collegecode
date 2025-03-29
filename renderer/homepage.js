@@ -1,4 +1,4 @@
-xdocument.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     // --- Random Quote ---
     const quoteBox = document.getElementById("quote-box");
     const quotes = [
@@ -27,8 +27,12 @@ xdocument.addEventListener("DOMContentLoaded", function () {
 
     // --- Menu Icon Click ---
     document.getElementById("menu-icon").addEventListener("click", () => {
-        alert("Settings menu will be implemented soon!");
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+        
     });
+    
 
     // --- Load Profile Data ---
     const usernameElement = document.getElementById("username");
@@ -39,15 +43,15 @@ xdocument.addEventListener("DOMContentLoaded", function () {
 
     // --- Feature Boxes Clicks ---
     document.getElementById("love").addEventListener("click", () => {
-        window.location.href = "love.html";
+        window.location.href = "contacts.html";
     });
 
     document.getElementById("imp-date").addEventListener("click", () => {
-        window.location.href = "imp-date.html";
+        window.location.href = "calendar.html";
     });
 
     document.getElementById("notif").addEventListener("click", () => {
-        window.location.href = "notif.html";
+        window.location.href = "notification.html";
     });
 
     document.getElementById("surveys").addEventListener("click", () => {
@@ -92,14 +96,14 @@ xdocument.addEventListener("DOMContentLoaded", function () {
             });
     });
 
-    document.getElementById('profile-btn').addEventListener('click', () => {
+    document.getElementById('cam-btn').addEventListener('click', () => {
         hideHomepageSections();
-        fetch('profile.html')
+        fetch('cam.html')
             .then(res => res.text())
             .then(html => {
                 document.getElementById('dynamic-content').innerHTML = html;
                 const script = document.createElement('script');
-                script.src = 'profile.js';
+                script.src = 'cam.js';
                 document.body.appendChild(script);
             });
     });

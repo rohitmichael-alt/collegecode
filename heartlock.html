@@ -1,26 +1,20 @@
-<div class="heartlock-container">
-    <h2>🔒 Heart Lock Vault</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+<body>
+    
+    <button onclick="goBack()">Back</button>
+    <script>
+        function goBack() {
+            window.location.href = "homepage.html";
+        }
+    </script>
 
-    <!-- Lock Screen -->
-    <div id="lock-screen">
-        <p>Enter your PIN to unlock</p>
-        <input type="password" id="pinInput" placeholder="Enter PIN">
-        <button onclick="unlockVault()">🔓 Unlock</button>
-        <p id="pinFeedback" style="color: red; display: none;">Incorrect PIN!</p>
-    </div>
 
-    <!-- Vault Content -->
-    <div id="vault-content" style="display: none;">
-        <h3>💌 Your Secret Notes</h3>
-        <textarea id="secretNoteInput" placeholder="Write your private note..."></textarea>
-        <button onclick="saveSecretNote()">Save Secret Note</button>
 
-        <ul id="secretNoteList"></ul>
-
-        <button onclick="lockVault()">🔒 Lock Vault</button>
-        <button id="backHomeBtn" style="margin-top: 20px;">🔙 Back to Home</button>
-
-    </div>
-</div>
-
-<script src="heartlock.js"></script>
+</body>
+</html>

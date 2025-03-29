@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('features').style.display = 'grid';
         document.getElementById('bottom-nav').style.display = 'flex';
         document.querySelector('.quote-container').style.display = 'block';
-
+        document.getElementById('profile-section').style.justifyContent = "flex-start"; // Align left
         // Clear dynamic content
         document.getElementById('dynamic-content').innerHTML = '';
     });

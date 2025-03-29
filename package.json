@@ -4,5 +4,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron ."
+  },
+  "dependencies": {
+    "firebase": "^11.5.0"
   }
 }

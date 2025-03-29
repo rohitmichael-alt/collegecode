@@ -4,17 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surveys</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="renderer/survey.css">
 </head>
 <body>
-    <h1>Surveys</h1>
-    <button onclick="goBack()">Back</button>
+    <div class="survey-container">
+        <h2>Select a Survey Category</h2>
+        <div class="categories">
+            <button class="category" onclick="location.href='relationship.html'">Relationship Satisfaction</button>
+            <button class="category" onclick="location.href='communication.html'">Communication Style</button>
+            <button class="category" onclick="location.href='memories.html'">Memorable Moments</button>
+            <button class="category" onclick="location.href='plans.html'">Future Plans</button>
+            <button class="category" onclick="location.href='preferences.html'">Personality & Preferences</button>
+        </div>
+        
+        
+        <button class="back-button" onclick="goBack()">Back</button>
+
+    </div>
+
     <script>
         function goBack() {
             window.location.href = "homepage.html";
         }
     </script>
-
-    
 </body>
 </html>

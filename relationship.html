@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relationship Satisfaction Survey</title>
+    <link rel="stylesheet" href="renderer/survey.css">
+    
+    <button class="back-button" onclick="goBack()">Back</button>
+
+    <script>
+        function goBack() {
+            window.location.href = "surveys.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="survey-container">
+        <h2>Relationship Satisfaction Survey</h2>
+        <div id="survey-questions"></div>
+        <button id="submit-btn" onclick="submitSurvey()">Submit</button>
+        <div id="summary" class="hidden"></div>
+        
+    </div>
+
+    <script>
+        const surveyData = [
+            { question: "How satisfied are you with your current relationships?", type: "likert" },
+            { question: "Do you feel emotionally supported?", type: "mcq", options: ["Yes", "No", "Sometimes"] },
+            { question: "Do you express appreciation for your loved ones?", type: "likert" },
+            { question: "How well do you handle conflicts in your relationships?", type: "likert" },
+            { question: "Do you feel valued in your relationships?", type: "mcq", options: ["Yes", "No", "Sometimes"] },
+            { question: "How often do you spend quality time with loved ones?", type: "likert" }
+        ];
+
+        function loadSurvey() {
+            const container = document.getElementById("survey-questions");
+            container.innerHTML = "";
+            surveyData.forEach((q, index) => {
+                let questionElement = `<p>${q.question}</p>`;
+                if (q.type === "likert") {
+                    for (let i = 1; i <= 5; i++) {
+                        questionElement += `<input type='radio' name='q${index}' value='${i}'> ${i} `;
+                    }
+                } else {
+                    q.options.forEach(option => {
+                        questionElement += `<input type='radio' name='q${index}' value='${option}'> ${option} `;
+                    });
+                }
+                container.innerHTML += questionElement;
+            });
+        }
+
+        function submitSurvey() {
+            const responses = [];
+            document.querySelectorAll("#survey-questions p").forEach((q, index) => {
+                const selected = document.querySelector(`input[name='q${index}']:checked`);
+                if (selected) responses.push(selected.value);
+            });
+            localStorage.setItem("relationshipSurvey", JSON.stringify(responses));
+            showSummary(responses);
+        }
+
+        function showSummary(responses) {
+            const summaryContainer = document.getElementById("summary");
+            let score = responses.reduce((acc, val) => acc + (isNaN(val) ? 0 : parseInt(val)), 0);
+            let avgScore = (responses.length > 0) ? score / responses.length : 0;
+
+            summaryContainer.innerHTML = `<h3>Survey Summary</h3>`;
+            summaryContainer.innerHTML += `<p>Average Score: ${avgScore.toFixed(2)}</p>`;
+
+            let suggestion = avgScore < 3 
+                ? "Consider improving your relationships with open conversations and quality time." 
+                : "You're maintaining great relationships! Keep nurturing your bonds.";
+            summaryContainer.innerHTML += `<p><strong>Suggestion:</strong> ${suggestion}</p>`;
+
+            summaryContainer.classList.remove("hidden");
+        }
+
+        window.onload = loadSurvey;
+    </script>
+</body>
+</html>

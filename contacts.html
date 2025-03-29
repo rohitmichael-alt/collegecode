@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts & Important Dates</title>
+    <button onclick="goBack()">Back</button>
+    <script>
+        function goBack() {
+            window.location.href = "homepage.html";
+        }
+    </script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 400px; margin: auto; }
+        .name-list { margin-top: 20px; }
+        .name { cursor: pointer; padding: 10px; border: 1px solid #ddd; margin: 5px 0; }
+        .dates-list { margin-top: 10px; }
+        .date-item { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; }
+        .dismiss { background: red; color: white; border: none; cursor: pointer; padding: 5px; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+        .modal input, .modal textarea { width: 100%; margin-top: 10px; }
+        .modal button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add Contact</h2>
+        <input type="text" id="nameInput" placeholder="Enter name">
+        <button onclick="addName()">Add</button>
+        <div class="name-list" id="nameList"></div>
+        <div id="datesContainer"></div>
+    </div>
+    
+    <div class="modal" id="dateModal">
+        <h3 id="modalTitle"></h3>
+        <input type="date" id="dateInput">
+        <textarea id="eventInput" placeholder="Enter event (optional)"></textarea>
+        <button onclick="saveDate()">Save</button>
+        <button onclick="closeModal()">Close</button>
+    </div>
+
+    <script>
+        let selectedName = "";
+        let data = JSON.parse(localStorage.getItem("contactsData")) || {};
+        
+        function addName() {
+            let name = document.getElementById("nameInput").value.trim();
+            if (name && !data[name]) {
+                data[name] = [];
+                saveData();
+                renderNames();
+                document.getElementById("nameInput").value = "";
+            }
+        }
+        
+        function renderNames() {
+            let nameList = document.getElementById("nameList");
+            nameList.innerHTML = "";
+            for (let name in data) {
+                let div = document.createElement("div");
+                div.className = "name";
+                div.innerText = name;
+                div.onclick = () => showDates(name);
+                nameList.appendChild(div);
+            }
+        }
+
+        function showDates(name) {
+            selectedName = name;
+            let datesContainer = document.getElementById("datesContainer");
+            datesContainer.innerHTML = `<h3>Important Dates for ${name}</h3>`;
+            let datesList = document.createElement("div");
+            datesList.className = "dates-list";
+            data[name].forEach((entry, index) => {
+                let dateItem = document.createElement("div");
+                dateItem.className = "date-item";
+                dateItem.innerHTML = `<span>${entry.date}: ${entry.event || "No description"}</span>`;
+                
+                let dismissBtn = document.createElement("button");
+                dismissBtn.className = "dismiss";
+                dismissBtn.innerText = "X";
+                dismissBtn.onclick = () => dismissDate(name, index);
+                
+                dateItem.appendChild(dismissBtn);
+                datesList.appendChild(dateItem);
+            });
+            let addBtn = document.createElement("button");
+            addBtn.innerText = "Add Important Date";
+            addBtn.onclick = () => openModal(name);
+            datesList.appendChild(addBtn);
+            datesContainer.appendChild(datesList);
+        }
+
+        function openModal(name) {
+            selectedName = name;
+            document.getElementById("modalTitle").innerText = `Add Important Date for ${name}`;
+            document.getElementById("dateModal").style.display = "block";
+        }
+        
+        function closeModal() {
+            document.getElementById("dateModal").style.display = "none";
+        }
+        
+        function saveDate() {
+            let date = document.getElementById("dateInput").value;
+            let event = document.getElementById("eventInput").value;
+            if (date) {
+                data[selectedName].push({ date, event });
+                saveData();
+                closeModal();
+                showDates(selectedName);
+            }
+        }
+
+        function dismissDate(name, index) {
+            data[name].splice(index, 1);
+            saveData();
+            showDates(name);
+        }
+
+        function saveData() {
+            localStorage.setItem("contactsData", JSON.stringify(data));
+        }
+
+        renderNames();
+    </script>
+    <link rel="stylesheet" href="renderer/box.css">
+</body>
+</html>

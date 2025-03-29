@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality & Preferences Survey</title>
+    <link rel="stylesheet" href="renderer/survey.css">
+    <button class="back-button" onclick="goBack()">Back</button>
+
+    <script>
+        function goBack() {
+            window.location.href = "surveys.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="survey-container">
+        <h2>Personality & Preferences</h2>
+        <div id="survey-questions"></div>
+        <button id="submit-btn" onclick="submitSurvey()">Submit</button>
+        <div id="summary" class="hidden"></div>
+       
+    </div>
+
+    <script>
+        const surveyData = [
+            { question: "Do you and your partner/friend have similar hobbies?", type: "mcq", options: ["Very Similar", "Somewhat Similar", "Very Different"] },
+            { question: "How often do you engage in activities that interest both of you?", type: "likert" },
+            { question: "Do you prefer social outings or staying in?", type: "mcq", options: ["Social Outings", "Staying In", "Depends"] },
+            { question: "How well do you understand each other's likes and dislikes?", type: "likert" },
+            { question: "Do you respect each other’s different preferences?", type: "mcq", options: ["Always", "Sometimes", "Rarely"] },
+            { question: "Do you both compromise on shared decisions?", type: "likert" },
+            { question: "Do you feel comfortable expressing your opinions and preferences?", type: "likert" }
+        ];
+
+        function loadSurvey() {
+            const container = document.getElementById("survey-questions");
+            surveyData.forEach((q, index) => {
+                let html = `<p>${q.question}</p>`;
+                if (q.type === "likert") {
+                    for (let i = 1; i <= 5; i++) {
+                        html += `<input type='radio' name='q${index}' value='${i}'> ${i} `;
+                    }
+                } else {
+                    q.options.forEach(option => {
+                        html += `<input type='radio' name='q${index}' value='${option}'> ${option} `;
+                    });
+                }
+                container.innerHTML += `<div class='question'>${html}</div>`;
+            });
+        }
+
+        function submitSurvey() {
+            const responses = [];
+            document.querySelectorAll(".question").forEach((q, index) => {
+                const selected = document.querySelector(`input[name='q${index}']:checked`);
+                if (selected) responses.push(selected.value);
+            });
+            localStorage.setItem("preferences", JSON.stringify(responses));
+            showSummary(responses);
+        }
+
+        function showSummary(responses) {
+            const summary = document.getElementById("summary");
+            let score = 0;
+            responses.forEach(res => {
+                if (!isNaN(res)) score += parseInt(res);
+            });
+
+            let avgScore = score / responses.length;
+            let suggestion = avgScore < 3 
+                ? "Consider learning more about each other's preferences to strengthen your bond." 
+                : "You understand and respect each other’s differences well!";
+            
+            summary.innerHTML = `<h3>Survey Summary</h3><p>Average Score: ${avgScore.toFixed(2)}</p><p><strong>Suggestion:</strong> ${suggestion}</p>`;
+            summary.classList.remove("hidden");
+        }
+
+      
+
+        window.onload = loadSurvey;
+    </script>
+</body>
+</html>

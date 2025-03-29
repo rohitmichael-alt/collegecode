@@ -12,15 +12,16 @@
     <header>
         <div id="top-bar">
             <div id="app-logo">
-                <img src="renderer/logo.png" alt="Memolink Logo">
-                <span>Memolink</span>
+                <img src="renderer/memo.png" >
+                <span>Memolink✨</span>
             </div>
-            <div id="menu-icon">&#9776;</div>
+            <div id="menu-icon" onclick="navigateTo('settings.html')">&#9776;</div>
+            
         </div>
     </header>
 
     <section id="profile-section">
-        <img id="profile-pic" src="renderer/profile-placeholder.png" alt="Profile Picture" class="profile-pic">
+        <img id="profile-pic" src="renderer/profile.png"  class="profile-pic">
         <span id="username">User</span>
     </section>
 
@@ -29,13 +30,13 @@
     </section>
 
     <section id="features">
-        <div class="feature-box" id="love" onclick="navigateTo('love.html')">
+        <div class="feature-box" id="love" onclick="navigateTo('contacts.html')">
             <h3>My Loved Ones</h3>
         </div>
-        <div class="feature-box" id="imp-date" onclick="navigateTo('imp-date.html')">
+        <div class="feature-box" id="imp-date" onclick="navigateTo('calendar.html')">
             <h3>Important Dates Tracker</h3>
         </div>
-        <div class="feature-box" id="notif" onclick="navigateTo('notif.html')">
+        <div class="feature-box" id="notif" onclick="navigateTo('notification.html')">
             <h3>Notifications</h3>
         </div>
         <div class="feature-box" id="surveys" onclick="navigateTo('surveys.html')">
@@ -44,11 +45,10 @@
     </section>
 
     <nav id="bottom-nav">
-        <div class="nav-icon" id="notes-btn"><img src="renderer/icons/notes.png" alt="Notes"></div>
-        <div class="nav-icon" id="gift-btn"><img src="renderer/icons/gift.png" alt="Gift"></div>
-        <div class="nav-icon" id="heartlock-btn"><img src="renderer/icons/heart-lock.png" alt="Heart Lock"></div>
-        <div class="nav-icon"><img src="renderer/icons/camera.png" alt="Camera"></div>
-        <div class="nav-icon" id="profile-btn"><img src="renderer/icons/profile.png" alt="Profile"></div>
+        <div class="nav-icon" id="notes-btn">Notes🗒️</div>
+        <div class="nav-icon" id="gift-btn">Gift🎁</div>
+        <div class="nav-icon" id="heartlock-btn">Memo💗</div>
+        <div class="nav-icon">Cam📸</div>
 
     </nav>
 
@@ -69,13 +69,14 @@
                 })
                 .catch(error => {
                     console.error("Error fetching quote:", error);
-                    quoteBox.textContent = "Failed to load quote. Try again!";
+                    quoteBox.textContent = "“The biggest adventure you can take is to live the life of your dreams.” —Oprah Winfrey";
                 });
 
             const buttons = [
                 { id: 'notes-btn', page: 'notes.html' },
                 { id: 'gift-btn', page: 'gift.html', extraScript: 'gift.js' },
-                { id: 'heartlock-btn', page: 'heartlock.html' }
+                { id: 'heartlock-btn', page: 'heartlock.html' },
+                {id: 'cam-btn ' , page: 'cam.html'}
             ];
 
             buttons.forEach(btn => {

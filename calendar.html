@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <button onclick="goBack()">Back</button>
+    <script>
+        function goBack() {
+            window.location.href = "homepage.html";
+        }
+    </script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; max-width: 400px; margin: auto; }
+        .day { padding: 10px; border: 1px solid #ddd; cursor: pointer; min-height: 50px; position: relative; }
+        .event { font-size: small; color: blue; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+        .modal input, .modal textarea { width: 100%; margin-top: 10px; }
+        .modal button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Calendar</h2>
+    <button onclick="prevMonth()">&#9665;</button>
+    <span id="monthYear"></span>
+    <button onclick="nextMonth()">&#9655;</button>
+    <div class="calendar" id="calendar"></div>
+
+    <div class="modal" id="eventModal">
+        <h3 id="modalTitle"></h3>
+        <textarea id="eventText" placeholder="Enter event"></textarea>
+        <button onclick="saveEvent()">Save</button>
+        <button onclick="closeModal()">Close</button>
+    </div>
+
+    <script>
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let selectedDate = "";
+        let events = JSON.parse(localStorage.getItem("calendarEvents")) || {};
+
+        function loadCalendar() {
+            document.getElementById("monthYear").innerText = new Date(currentYear, currentMonth)
+                .toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+            let calendar = document.getElementById("calendar");
+            calendar.innerHTML = "";
+            let firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            let daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                calendar.appendChild(document.createElement("div"));
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                let dateKey = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                let dayDiv = document.createElement("div");
+                dayDiv.className = "day";
+                dayDiv.innerText = day;
+                dayDiv.onclick = () => openModal(dateKey);
+
+                if (events[dateKey]) {
+                    let eventDiv = document.createElement("div");
+                    eventDiv.className = "event";
+                    eventDiv.innerText = events[dateKey];
+                    dayDiv.appendChild(eventDiv);
+                }
+                calendar.appendChild(dayDiv);
+            }
+        }
+
+        function openModal(dateKey) {
+            selectedDate = dateKey;
+            document.getElementById("modalTitle").innerText = `Events for ${selectedDate}`;
+            document.getElementById("eventText").value = events[selectedDate] || "";
+            document.getElementById("eventModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("eventModal").style.display = "none";
+        }
+
+        function saveEvent() {
+            let eventText = document.getElementById("eventText").value;
+            if (eventText) {
+                events[selectedDate] = eventText;
+            } else {
+                delete events[selectedDate];
+            }
+            localStorage.setItem("calendarEvents", JSON.stringify(events));
+            closeModal();
+            loadCalendar();
+        }
+
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            loadCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            loadCalendar();
+        }
+
+        function syncContactsData() {
+            let contactsData = JSON.parse(localStorage.getItem("contactsData")) || {};
+            let updatedEvents = JSON.parse(localStorage.getItem("calendarEvents")) || {}; // Keep user-added events
+
+            for (let person in contactsData) {
+                contactsData[person].forEach(entry => {
+                    let dateKey = entry.date;
+                    let eventDetail = `${person}: ${entry.event || "Important Date"}`;
+
+                    if (!updatedEvents[dateKey]) {
+                        updatedEvents[dateKey] = eventDetail;
+                    } else if (!updatedEvents[dateKey].includes(eventDetail)) {
+                        updatedEvents[dateKey] += "\n" + eventDetail;
+                    }
+                });
+            }
+
+            // Remove deleted dates
+            for (let dateKey in updatedEvents) {
+                let found = false;
+                for (let person in contactsData) {
+                    if (contactsData[person].some(entry => entry.date === dateKey)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    delete updatedEvents[dateKey];
+                }
+            }
+
+            localStorage.setItem("calendarEvents", JSON.stringify(updatedEvents));
+            events = updatedEvents;
+            loadCalendar();
+        }
+
+        function listenForContactsChanges() {
+            window.addEventListener("storage", function(event) {
+                if (event.key === "contactsData") {
+                    syncContactsData();
+                }
+            });
+        }
+
+        listenForContactsChanges();
+        syncContactsData();
+        loadCalendar();
+    </script>
+
+    <link rel="stylesheet" href="renderer/box.css">
+
+
+</body>
+</html>

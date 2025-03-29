@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Clear dynamic content
         document.getElementById('dynamic-content').innerHTML = '';
+        document.getElementById('profile-section').style.justifyContent = "flex-start"; // Align left
     });
 });
 
