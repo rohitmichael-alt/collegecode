@@ -5,34 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="renderer/styles.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <div class="login-container">
         <div class="logo">
-            <img
-              src="https://i.pinimg.com/736x/ac/95/1d/ac951da986db66d2c62fd4c957a26d49.jpg"
-              alt="app-logo"
-            />
+            <img src="https://i.pinimg.com/736x/ac/95/1d/ac951da986db66d2c62fd4c957a26d49.jpg" alt="app-logo">
         </div>
         <div class="login-box">
             <h2>Login</h2>
             <form id="login-form">
                 <label for="username">Username:</label>
                 <input type="text" id="username" required>
-
                 <label for="email">Email:</label>
                 <input type="email" id="email" required>
-
                 <label for="password">Password:</label>
                 <input type="password" id="password" required>
-
                 <button type="submit">Login</button>
-
             </form>
-           
-
-
             <p id="error-message" class="error-message"></p>
+
+            <div class="separator">
+                <p>or</p>
+            </div>
+
+            <div id="google-signin-button"></div>
         </div>
     </div>
 
