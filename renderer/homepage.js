@@ -1,13 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Update username display
+    const usernameDisplay = document.getElementById("username");
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+        usernameDisplay.textContent = loggedInUser;
+    } else {
+        usernameDisplay.textContent = "Guest";
+    }
+
     // --- Random Quote ---
     const quoteBox = document.getElementById("quote-box");
     const quotes = [
         { text: "Believe in yourself and all that you are.", author: "Christian D. Larson" },
         { text: "Success is not the key to happiness. Happiness is the key to success.", author: "Albert Schweitzer" },
-        { text: "Do what you love, and you’ll never work a day in your life.", author: "Confucius" },
-        { text: "Your time is limited, so don’t waste it living someone else’s life.", author: "Steve Jobs" },
+        { text: "Do what you love, and you'll never work a day in your life.", author: "Confucius" },
+        { text: "Your time is limited, so don't waste it living someone else's life.", author: "Steve Jobs" },
         { text: "Keep your face always toward the sunshine—and shadows will fall behind you.", author: "Walt Whitman" }
     ];
+    
     function displayRandomQuote() {
         const randomIndex = Math.floor(Math.random() * quotes.length);
         const selectedQuote = quotes[randomIndex];
@@ -27,84 +37,80 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- Menu Icon Click ---
     document.getElementById("menu-icon").addEventListener("click", () => {
-        function navigateTo(page) {
-            window.location.href = page;
-        }
-        
+        window.location.href = "settings.html";
     });
-    
-
-    // --- Load Profile Data ---
-    const usernameElement = document.getElementById("username");
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-        usernameElement.textContent = storedUsername;
-    }
 
     // --- Feature Boxes Clicks ---
-    document.getElementById("love").addEventListener("click", () => {
-        window.location.href = "contacts.html";
-    });
+    const featureLinks = {
+        "love": "contacts.html",
+        "imp-date": "calendar.html",
+        "notif": "notification.html",
+        "surveys": "surveys.html"
+    };
 
-    document.getElementById("imp-date").addEventListener("click", () => {
-        window.location.href = "calendar.html";
-    });
-
-    document.getElementById("notif").addEventListener("click", () => {
-        window.location.href = "notification.html";
-    });
-
-    document.getElementById("surveys").addEventListener("click", () => {
-        window.location.href = "surveys.html";
+    Object.keys(featureLinks).forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener("click", () => {
+                window.location.href = featureLinks[id];
+            });
+        }
     });
 
     // --- Bottom Nav Button Clicks ---
     const hideHomepageSections = () => {
-        document.getElementById('profile-section').style.display = 'none';
-        document.getElementById('features').style.display = 'none';
-        document.getElementById('bottom-nav').style.display = 'none';
-        document.querySelector('.quote-container').style.display = 'none';
+        document.getElementById("profile-section").style.display = "none";
+        document.getElementById("features").style.display = "none";
+        document.getElementById("bottom-nav").style.display = "none";
+        document.querySelector(".quote-container").style.display = "none";
     };
 
-    document.getElementById('notes-btn').addEventListener('click', () => {
-        hideHomepageSections();
-        fetch('notes.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('dynamic-content').innerHTML = html;
-            });
-    });
+    const showHomepageSections = () => {
+        document.getElementById("profile-section").style.display = "block";
+        document.getElementById("features").style.display = "grid";
+        document.getElementById("bottom-nav").style.display = "flex";
+        document.querySelector(".quote-container").style.display = "block";
+        document.getElementById("dynamic-content").innerHTML = '';
+    };
 
-    document.getElementById('gift-btn').addEventListener('click', () => {
+    const loadContent = (htmlFile, jsFile = null) => {
         hideHomepageSections();
-        fetch('gift.html')
+        fetch(htmlFile)
             .then(res => res.text())
             .then(html => {
-                document.getElementById('dynamic-content').innerHTML = html;
-                const script = document.createElement('script');
-                script.src = 'gift.js';
-                document.body.appendChild(script);
-            });
-    });
+                const dynamicContent = document.getElementById("dynamic-content");
+                dynamicContent.innerHTML = html;
 
-    document.getElementById('heartlock-btn').addEventListener('click', () => {
-        hideHomepageSections();
-        fetch('heartlock.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('dynamic-content').innerHTML = html;
-            });
-    });
+                // Add event listener for back button
+                const backBtn = dynamicContent.querySelector("#backHomeBtn");
+                if (backBtn) {
+                    backBtn.addEventListener("click", () => {
+                        showHomepageSections();
+                    });
+                }
 
-    document.getElementById('cam-btn').addEventListener('click', () => {
-        hideHomepageSections();
-        fetch('cam.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('dynamic-content').innerHTML = html;
-                const script = document.createElement('script');
-                script.src = 'cam.js';
-                document.body.appendChild(script);
+                if (jsFile) {
+                    const script = document.createElement("script");
+                    script.src = jsFile;
+                    document.body.appendChild(script);
+                }
+            })
+            .catch(err => console.error(`Error loading ${htmlFile}:`, err));
+    };
+
+    // Add event listeners for bottom nav buttons
+    const bottomNavButtons = {
+        "notes-btn": { html: "notes.html" },
+        "gift-btn": { html: "gift.html" },
+        "music-btn": null // This is handled by the music modal
+    };
+
+    Object.entries(bottomNavButtons).forEach(([id, config]) => {
+        const element = document.getElementById(id);
+        if (element && config) {
+            element.addEventListener("click", () => {
+                loadContent(config.html);
             });
+        }
     });
 });

@@ -3,13 +3,9 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: #ffe6ea;
     color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
     margin: 0;
-    position: relative;
+    padding: 0;
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -30,17 +26,16 @@ body::before {
 /* Header - Fix alignment */
 /* Header - Ensuring Proper Layout */
 header {
-    width: 100%;
+    background-color: #ffb3b3;
+    padding: 12px 20px;
+    margin: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Ensures left & right alignment */
-    padding: 15px 20px;
-    background: rgba(255, 240, 245, 0.9);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    justify-content: flex-start;
+    box-shadow: 0 2px 8px rgba(215, 95, 117, 0.15);
     position: relative;
-    margin-bottom: 10px;
-    margin-top: -25px; /* Moves header higher */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* App Logo & Name - Stay on the left */
@@ -425,7 +420,7 @@ header {
 }
 
 .settings-options button:hover {
-    background: #ff7985;
+    background: #f5636f;
     transform: translateY(-2px);
 }
 
@@ -454,4 +449,343 @@ header {
     border: none;
     padding: 5px;
     cursor: pointer;
+}
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.signup-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #ff1457; /* Hot Pink */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+#e85963
+button:hover {
+    background-color: #e85963; /* Deep Pink on hover */
+}
+
+.login-text {
+    margin-top: 20px;
+}
+
+a {
+    color: #f54b54; /* Match button color */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}
+
+/* Common Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffe6e6;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+header {
+    background-color: #ffb3b3;
+    padding: 15px 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-shadow: 0 2px 8px rgba(215, 95, 117, 0.15);
+}
+
+.back-button {
+    background-color: white;
+    color: #ff6b6b;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 15px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: auto;
+    left: auto;
+}
+
+.back-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    background-color: #fff0f0;
+}
+
+h2 {
+    color: white;
+    margin: 0;
+    font-size: 20px;
+    flex-grow: 1;
+    text-align: center;
+    padding-right: 60px; /* Offset for back button to center the text */
+}
+
+/* Content Container */
+.content-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(215, 95, 117, 0.15);
+    max-width: 600px;
+    margin: 20px auto;
+    width: calc(100% - 40px);
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="password"],
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid #ffb3b3;
+    border-radius: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    background-color: #fff;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+/* Buttons */
+.primary-button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 15px;
+    transition: all 0.2s ease;
+}
+
+.primary-button:hover {
+    background-color: #ff5252;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(215, 95, 117, 0.2);
+}
+
+/* Settings Options */
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.settings-button {
+    background-color: white;
+    color: #ff6b6b;
+    border: 2px solid #ffb3b3;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settings-button:hover {
+    background-color: #fff0f0;
+    border-color: #ff6b6b;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(215, 95, 117, 0.1);
+}
+
+.settings-button::after {
+    content: '→';
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+/* About Page */
+.about-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.about-container p {
+    color: #666;
+    line-height: 1.6;
+    margin: 15px 0;
+}
+
+.about-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.about-container li {
+    color: #ff6b6b;
+    font-size: 18px;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff0f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.about-container li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(215, 95, 117, 0.1);
+}
+
+.about-container a {
+    color: #ff6b6b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.about-container a:hover {
+    text-decoration: underline;
+}
+
+/* Error Messages */
+.error-message {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 4px;
+}
+
+/* Feedback Form */
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.feedback-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Profile Picture */
+.profile-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.file-input-wrapper {
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.file-input-wrapper input[type="file"] {
+    display: none;
+}
+
+.file-input-label {
+    background-color: #fff0f0;
+    color: #ff6b6b;
+    padding: 15px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px dashed #ffb3b3;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.file-input-label:hover {
+    background-color: #ffe6e6;
+    border-color: #ff6b6b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    header {
+        padding: 12px 15px;
+    }
+
+    .content-container {
+        padding: 15px;
+    }
+
+    .settings-button {
+        padding: 12px;
+        font-size: 14px;
+    }
 }
