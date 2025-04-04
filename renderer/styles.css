@@ -36,19 +36,30 @@ header {
     position: relative;
     width: 100%;
     box-sizing: border-box;
+
 }
 
 /* App Logo & Name - Stay on the left */
+
 #app-logo {
     display: flex;
-    align-items: center; /* Keeps text and logo in one line */
-    gap: 10px;
-    width: 10px;
-    height: auto;
-    font-size: 20px;
-    font-weight: bold;
-    color: #ff4d6d;
+    align-items: center;
+    gap: 8px; /* Space between image and text */
 }
+
+#app-logo img {
+    width: 40px; /* Adjust the logo size */
+    height: auto;
+}
+
+#app-logo span {
+    font-size: 18px; /* Adjust text size */
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+
+
+
 
 /* Push Settings to the Right */
 .header-right {

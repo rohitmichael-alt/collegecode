@@ -176,8 +176,27 @@
                 </div>
                 <button type="submit" class="save-btn">Save Details</button>
             </form>
+            <button class ="dismiss-btn" onclick = "dismissContact()">Dismiss Contact</button>
         </div>
     </div>
+
+    <style>
+        .dismiss-btn {
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    
+        .dismiss-btn:hover {
+            background-color: #cc0000;
+        }
+    </style>
 
     <script>
         const rohitContacts = [
@@ -366,6 +385,36 @@
 
         // Initialize the contact cards
         createContactCards();
+
+        function dismissContact() {
+        if (!selectedContact) return;
+
+        const confirmDelete = confirm(`Are you sure you want to dismiss ${selectedContact.name}?`);
+        if (!confirmDelete) return;
+
+        // Remove contact from localStorage
+        delete contactsData[selectedContact.name];
+        localStorage.setItem("contactsData", JSON.stringify(contactsData));
+
+        // Remove contact from the displayed list
+        const contactsType = localStorage.getItem("contactsType");
+        let contacts = contactsType === "hema" ? hemaContacts : rohitContacts;
+        contacts = contacts.filter(contact => contact.name !== selectedContact.name);
+        
+        // Remove the contact from the calendar
+        let calendarEvents = JSON.parse(localStorage.getItem("calendarEvents")) || {};
+        Object.keys(calendarEvents).forEach(date => {
+            if (calendarEvents[date].includes(selectedContact.name)) {
+                delete calendarEvents[date];
+            }
+        });
+        localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
+
+        alert(`${selectedContact.name} has been dismissed and removed from the contacts & calendar.`);
+        closeModal();
+        createContactCards(); // Refresh the list
+    }
+        
     </script>
 </body>
 </html>

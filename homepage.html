@@ -98,37 +98,13 @@
                     quoteBox.textContent = "“The biggest adventure you can take is to live the life of your dreams.” —Oprah Winfrey";
                 });
 
-            const buttons = [
-                { id: 'notes-btn', page: 'notes.html' },
-                { id: 'gift-btn', page: 'gift.html' }
-            ];
+                document.getElementById('notes-btn').addEventListener('click', () => {
+    window.location.href = 'notes.html';
+});
 
-            buttons.forEach(btn => {
-                const element = document.getElementById(btn.id);
-                element.addEventListener('click', () => {
-                    fetch(btn.page)
-                        .then(response => response.text())
-                        .then(html => {
-                            document.getElementById('profile-section').style.display = 'none';
-                            document.getElementById('features').style.display = 'none';
-                            document.getElementById('bottom-nav').style.display = 'none';
-                            document.querySelector('.quote-container').style.display = 'none';
-                            document.getElementById('dynamic-content').innerHTML = html;
-
-                            const backBtn = document.getElementById('backHomeBtn');
-                            if (backBtn) {
-                                backBtn.addEventListener('click', () => {
-                                    document.getElementById('profile-section').style.display = 'block';
-                                    document.getElementById('features').style.display = 'grid';
-                                    document.getElementById('bottom-nav').style.display = 'flex';
-                                    document.querySelector('.quote-container').style.display = 'block';
-                                    document.getElementById('dynamic-content').innerHTML = '';
-                                });
-                            }
-                        })
-                        .catch(err => console.error(`Error loading ${btn.page}:`, err));
-                });
-            });
+document.getElementById('gift-btn').addEventListener('click', () => {
+    window.location.href = 'gift.html';
+});
 
             // Load profile picture from local storage
             const profilePic = localStorage.getItem("profilePic");

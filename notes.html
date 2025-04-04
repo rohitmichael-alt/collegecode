@@ -1,102 +1,242 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes</title>
-    <link rel="stylesheet" href="renderer/styles.css">
     <style>
-        .notes-container {
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
         }
 
-        .note-input {
-            width: 100%;
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background: #ff4d6d;
+            padding: 10px 15px;
+            border-radius: 25px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background: #ff2e53;
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
             padding: 10px;
-            border: 1px solid #ffb3b3;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-            box-sizing: border-box;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .note {
+        h2 {
+            color: #ff4d6d;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        /* Input Fields */
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ff4d6d;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+            padding-right: 0px;
+            padding-left: 5px;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #ff2e53;
+            box-shadow: 0 0 8px rgba(255, 77, 109, 0.5);
+        }
+
+        /* Save Button */
+        .save-button {
+            background: #ff4d6d;
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .save-button:hover {
+            background: #ff2e53;
+            transform: scale(1.05);
+        }
+
+        /* Notes Container */
+        #savedNotes {
+            margin-top: 20px;
+        }
+
+        /* Note Cards */
+        .note-card {
             background: white;
             padding: 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .note-card:hover {
+            box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Note Title */
+        .note-title {
+            background: #ffdde1;
+            padding: 10px;
+            margin-top: 5px;
             border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(215, 95, 117, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .note-title:hover {
+            background: #ffbec4;
+        }
+
+        /* Note Content */
+        .note-content {
+            display: none;
+            padding: 10px;
+            background: white;
+            margin-top: 5px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: max-height 0.4s ease-in-out;
+            overflow: hidden;
+        }
+
+        /* Buttons */
+        .edit-button, .delete-button {
+            padding: 8px;
+            font-size: 14px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        .edit-button {
+            background: #ff4d6d;
+        }
+
+        .edit-button:hover {
+            background: #ff2e53;
         }
 
         .delete-button {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
+            background: #444;
         }
 
         .delete-button:hover {
-            background: #ff4d4d;
-        }
-
-        #savedNotes {
-            margin-top: 20px;
+            background: #222;
         }
     </style>
 </head>
 <body>
-    <header>
-        <button class="back-button" id="backHomeBtn">← Back</button>
-        <h2>Notes</h2>
-    </header>
 
-    <div class="notes-container">
-        <input type="text" id="noteInput" class="note-input" placeholder="Write a note...">
-        <button onclick="saveNote()" class="primary-button">Save Note</button>
+    <a href="homepage.html" class="back-button">← Back</a> 
+
+    <div class="container">
+        <h2>My Notes</h2>
+        <input type="text" id="titleInput" placeholder="Enter note title...">
+        <textarea id="noteInput" placeholder="Write your note..."></textarea>
+        <button class="save-button" onclick="saveNote()">Save Note</button>
+
         <div id="savedNotes"></div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNotes();
-        });
-
+        document.addEventListener("DOMContentLoaded", loadNotes);
+    
         function saveNote() {
-            const noteInput = document.getElementById("noteInput");
-            const note = noteInput.value.trim();
-            
-            if (note) {
-                let notes = JSON.parse(localStorage.getItem("notes")) || [];
-                notes.push(note);
-                localStorage.setItem("notes", JSON.stringify(notes));
-                noteInput.value = "";
-                loadNotes();
+            let title = document.getElementById("titleInput").value.trim();
+            let noteText = document.getElementById("noteInput").value.trim();
+    
+            if (title === "" || noteText === "") {
+                alert("Please enter both a title and a note!");
+                return;
             }
+    
+            let notes = JSON.parse(localStorage.getItem("notes")) || [];
+            notes.push({ title, content: noteText });
+            localStorage.setItem("notes", JSON.stringify(notes));
+    
+            document.getElementById("titleInput").value = "";
+            document.getElementById("noteInput").value = "";
+            loadNotes();
         }
-
+    
         function loadNotes() {
             let display = document.getElementById("savedNotes");
-            display.innerHTML = "";
-            
+            display.innerHTML = ""; 
+    
             let notes = JSON.parse(localStorage.getItem("notes")) || [];
             notes.forEach((note, index) => {
                 let noteElement = document.createElement("div");
-                noteElement.className = "note";
-                noteElement.innerHTML = `
-                    <span>${note}</span>
-                    <button class="delete-button" onclick="deleteNote(${index})">×</button>
+                noteElement.className = "note-card";
+    
+                let titleElement = document.createElement("div");
+                titleElement.className = "note-title";
+                titleElement.innerText = note.title;
+                titleElement.onclick = () => toggleNoteContent(index);
+    
+                let contentElement = document.createElement("div");
+                contentElement.className = "note-content";
+                contentElement.innerHTML = `
+                    <textarea id="editNote${index}" style="width:100%; border:none; padding:8px;">${note.content}</textarea>
+                    <button class="edit-button" onclick="editNote(${index})">Save</button>
+                    <button class="delete-button" onclick="deleteNote(${index})">Delete</button>
                 `;
+    
+                noteElement.appendChild(titleElement);
+                noteElement.appendChild(contentElement);
                 display.appendChild(noteElement);
             });
         }
-
+    
+        function toggleNoteContent(index) {
+            let content = document.querySelectorAll(".note-content")[index];
+            content.style.display = content.style.display === "block" ? "none" : "block";
+        }
+    
+        function editNote(index) {
+            let notes = JSON.parse(localStorage.getItem("notes")) || [];
+            let newContent = document.getElementById(`editNote${index}`).value;
+            notes[index].content = newContent;
+            localStorage.setItem("notes", JSON.stringify(notes));
+            loadNotes();
+        }
+    
         function deleteNote(index) {
             let notes = JSON.parse(localStorage.getItem("notes")) || [];
             notes.splice(index, 1);
