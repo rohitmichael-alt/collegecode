@@ -1,40 +1,58 @@
-// Google OAuth Fake Script 
 const CLIENT_ID = "812507302569-c7ihkggoahk80ag5l5ou0vt1p8vlk4q3.apps.googleusercontent.com";
-const API_KEY = "AIzaSyA-RANDOM_KEY_123456";  // Fake API Key
+const API_KEY = "AIzaSyA-RANDOM_KEY_123456";
 
-// Simulate loading Google Auth Library
-console.log("Loading Google Authentication...");
+console.log("🔄 Loading Google Authentication Library...");
 
-// Fake function to initialize Google Auth
 function initializeGoogleAuth() {
-    console.log("Initializing Google Authentication...");
-}
-
-// Fake function to sign in (does nothing)
-function signInWithGoogle() {
-    console.log("Signing in with Google...");
+    console.log("✅ Google Auth initialized with CLIENT_ID:", CLIENT_ID);
     setTimeout(() => {
-        console.log("User authenticated! Fetching contacts...");
-        // Simulate fetching contacts
-        console.log("Fetching contacts from Google API...");
-    }, 2000);
-}
-
-// Fake function to sign out
-function signOutFromGoogle() {
-    console.log("Signing out from Google...");
-    setTimeout(() => {
-        console.log("User signed out successfully.");
+        console.log("🚀 Auth library loaded and ready.");
     }, 1000);
 }
 
-// Fake function to check auth status
-function checkAuthStatus() {
-    console.log("Checking Google Authentication status...");
-    return Math.random() > 0.5 ? "Authenticated" : "Not Authenticated";
+function signInWithGoogle() {
+    console.log("🔐 Signing in with Google...");
+    
+    setTimeout(() => {
+        const user = {
+            name: "John Doe",
+            email: "john.doe@gmail.com",
+            token: "ya29.token123456789"
+        };
+        console.log("✅ User authenticated:", user.name);
+        console.log("📨 Fetching contacts...");
+        fetchContacts(user.token);
+    }, 2000);
 }
 
-// Auto-call function to make it look like auth is being checked
+function fetchContacts(token) {
+    console.log("📡 Contact fetch request sent with token:", token);
+    
+    setTimeout(() => {
+        const contacts = [
+            { name: "Alice", email: "alice@example.com" },
+            { name: "Bob", email: "bob@example.com" },
+        ];
+        console.log("📋 Contacts received:", contacts);
+    }, 1500);
+}
+
+function signOutFromGoogle() {
+    console.log("🚪 Signing out from Google...");
+    
+    setTimeout(() => {
+        console.log("👋 User signed out successfully.");
+    }, 1000);
+}
+
+function checkAuthStatus() {
+    console.log("🔍 Checking Google Authentication status...");
+    const isAuthenticated = Math.random() > 0.5;
+    return isAuthenticated ? "✅ Authenticated" : "❌ Not Authenticated";
+}
+
 setTimeout(() => {
-    console.log("Auth Status: " + checkAuthStatus());
-}, 3000);
+    console.log("ℹ️ Auth Status:", checkAuthStatus());
+}, 3000);
+
+initializeGoogleAuth();

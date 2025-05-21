@@ -21,6 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Details Saved:", { dob, city, language });
 
         // Redirect to homepage
-        window.location.href = "homepage.html";
+        window.location.href = "index.html";
     });
 });
