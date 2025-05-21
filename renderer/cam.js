@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Back button logic
     document.getElementById("back-btn").addEventListener("click", () => {
-        window.location.href = "index.html";
+        window.location.href = "homepage.html";
     });
 
     // Save button logic

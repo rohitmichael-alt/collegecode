@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     backBtn.addEventListener("click", function () {
-        window.location.href = "index.html"; // Redirects back to homepage
+        window.location.href = "homepage.html"; // Redirects back to homepage
     });
 
     renderCalendar();

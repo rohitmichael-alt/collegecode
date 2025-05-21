@@ -3,149 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memolink</title>
+    <title>Login</title>
     <link rel="stylesheet" href="renderer/styles.css">
     <style>
-        /* Add styles for the new music button */
-        .nav-icon {
-            cursor: pointer;
-            padding: 10px;
-        }
-        .question-modal {
-            display: none;
-            background-color: rgba(255, 255, 255, 0.9);
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             padding: 20px;
-            border-radius: 10px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background-color: #ffe6ea;
         }
-        .question-modal button {
-            margin: 5px;
+
+        .logo {
+            margin-bottom: 30px;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(215, 95, 117, 0.2);
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .login-box h2 {
+            color: #ff6b6b;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .login-box form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-box label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffb3b3;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .login-box button {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .login-box button:hover {
+            background-color: #ff4d4d;
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .signup-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .signup-text a {
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div id="top-bar">
-            <div id="app-logo">
-                <img src="renderer/memo.png" alt="Memolink Logo">
-                <span>Memolink✨</span>
-            </div>
-            <div id="menu-icon" onclick="navigateTo('settings.html')">&#9776;</div>
+    <div class="login-container">
+        <div class="logo">
+            <img src="https://i.pinimg.com/736x/ac/95/1d/ac951da986db66d2c62fd4c957a26d49.jpg" alt="app-logo">
         </div>
-    </header>
+        <div class="login-box">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+                </div>
 
-    <section id="profile-section">
-        <img id="profile-pic" src="renderer/profile.png" alt="Profile Picture" class="profile-pic">
-        <span id="username">User</span>
-    </section>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
 
-    <section class="quote-container">
-        <p id="quote-box">Loading....</p>
-    </section>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
 
-    <section id="features">
-        <div class="feature-box" id="love" onclick="navigateTo('contacts.html')">
-            <h3>My Loved Ones</h3>
+                <button type="submit">Login</button>
+            </form>
+
+            <p id="error-message" class="error-message"></p>
+
+            <p class="signup-text">Not a user? <a href="signup.html">Sign up</a></p>
         </div>
-        <div class="feature-box" id="imp-date" onclick="navigateTo('calendar.html')">
-            <h3>Important Dates Tracker</h3>
-        </div>
-        <div class="feature-box" id="notif" onclick="navigateTo('notification.html')">
-            <h3>Notifications</h3>
-        </div>
-        <div class="feature-box" id="surveys" onclick="navigateTo('surveys.html')">
-            <h3>Surveys</h3>
-        </div>
-    </section>
-
-    <nav id="bottom-nav">
-        <div class="nav-icon" id="notes-btn">Notes🗒️</div>
-        <div class="nav-icon" id="gift-btn">Gift🎁</div>
-        <div class="nav-icon" id="music-btn" onclick="openMusicModal()">Music🎶</div>
-    </nav>
-
-    <div id="dynamic-content"></div>
-
-    <!-- Music Question Modal -->
-    <div id="music-modal" class="question-modal">
-        <h3>Hey there! How are you feeling today?</h3>
-        <button onclick="suggestPlaylist('happy')">Happy</button>
-        <button onclick="suggestPlaylist('sad')">Sad</button>
-        <button onclick="suggestPlaylist('angry')">Angry</button>
-        <button onclick="suggestPlaylist('sleepy')">Sleepy</button>
-        <button onclick="closeMusicModal()">Cancel</button>
     </div>
 
-    <script>
-        function navigateTo(page) {
-            window.location.href = page;
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const quoteBox = document.getElementById("quote-box");
-
-            fetch("https://api.quotable.io/random")
-                .then(response => response.json())
-                .then(data => {
-                    quoteBox.textContent = `"${data.content}" - ${data.author}`;
-                })
-                .catch(error => {
-                    console.error("Error fetching quote:", error);
-                    quoteBox.textContent = "“The biggest adventure you can take is to live the life of your dreams.” —Oprah Winfrey";
-                });
-
-                document.getElementById('notes-btn').addEventListener('click', () => {
-    window.location.href = 'notes.html';
-});
-
-document.getElementById('gift-btn').addEventListener('click', () => {
-    window.location.href = 'gift.html';
-});
-
-            // Load profile picture from local storage
-            const profilePic = localStorage.getItem("profilePic");
-            if (profilePic) {
-                document.getElementById("profile-pic").src = profilePic;
-            }
-        });
-
-        function openMusicModal() {
-            document.getElementById("music-modal").style.display = "block";
-        }
-
-        function closeMusicModal() {
-            document.getElementById("music-modal").style.display = "none";
-        }
-
-       
-            const { shell } = require('electron');
-
- function suggestPlaylist(mood) {
-    let link = '';
-    switch (mood) {
-        case 'happy':
-            link = 'https://www.youtube.com/watch?v=Cc_cNEjAh_Y&list=PL8U7gDbfLksNOQ-IbN_jfC9DVQYt4xXTo';
-            break;
-        case 'sad':
-            link = 'https://www.youtube.com/watch?v=Xk3O6Pr1HGY';
-            break;
-        case 'angry':
-            link = 'https://www.youtube.com/watch?v=WqocXW4JUdk';
-            break;
-        case 'sleepy':
-            link = 'https://www.youtube.com/watch?v=hbEAyIuQqlI';
-            break;
-    }
-    shell.openExternal(link); // This will open the link in the default browser
-    closeMusicModal();
-}
-
-    </script>
-
-    <script src="renderer/homepage.js"></script>
+    <script src="renderer/login.js"></script>
 </body>
 </html>
