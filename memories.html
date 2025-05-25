@@ -258,11 +258,47 @@
         </form>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4iSeQgqKj-KT1QUzyhIbBSL5-qI_HOGA",
+            authDomain: "college-818ff.firebaseapp.com",
+            projectId: "college-818ff",
+            storageBucket: "college-818ff.firebasestorage.app",
+            messagingSenderId: "597321515803",
+            appId: "1:597321515803:web:f920582b9de978110f49be",
+            measurementId: "G-JTMQ5BWYR2"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         document.getElementById('memoriesSurvey').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for completing the survey!');
-            window.location.href = 'surveys.html';
+            
+            // Get all form data
+            const formData = {
+                new_memories: document.querySelector('input[name="new_memories"]:checked')?.value,
+                reminisce: document.querySelector('input[name="reminisce"]:checked')?.value,
+                souvenirs: document.querySelector('input[name="souvenirs"]:checked')?.value,
+                revisit: document.querySelector('input[name="revisit"]:checked')?.value,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                userId: localStorage.getItem('loggedInUser') || 'anonymous'
+            };
+
+            // Save to Firestore
+            db.collection('memories_responses').add(formData)
+                .then(() => {
+                    alert('Thank you for completing the survey!');
+                    window.location.href = 'surveys.html';
+                })
+                .catch((error) => {
+                    console.error("Error saving survey: ", error);
+                    alert('There was an error saving your responses. Please try again.');
+                });
         });
     </script>
 </body>
