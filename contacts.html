@@ -36,6 +36,23 @@
             font-size: 24px;
         }
 
+        .add-contact-btn {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .add-contact-btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+        }
+
         .contacts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -142,12 +159,75 @@
             color: #d75f75;
             cursor: pointer;
         }
+
+        .dismiss-btn {
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .dismiss-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .add-contact-form {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(215, 95, 117, 0.2);
+        }
+
+        .add-contact-form.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <button class="back-button" onclick="goBack()">← Back</button>
         <h2>My Loved Ones</h2>
+    </div>
+
+    <button class="add-contact-btn" onclick="toggleAddContactForm()">Add New Contact</button>
+
+    <div class="add-contact-form" id="addContactForm">
+        <h3 class="modal-header">Add New Contact</h3>
+        <form id="newContactForm">
+            <div class="form-group">
+                <label for="newName">Name</label>
+                <input type="text" id="newName" required>
+            </div>
+            <div class="form-group">
+                <label for="newPhone">Phone Number</label>
+                <input type="tel" id="newPhone" required>
+            </div>
+            <div class="form-group">
+                <label for="newBirthday">Birthday</label>
+                <input type="date" id="newBirthday">
+            </div>
+            <div class="form-group">
+                <label for="newAnniversary">Anniversary (optional)</label>
+                <input type="date" id="newAnniversary">
+            </div>
+            <div class="form-group">
+                <label for="newOtherDates">Other Important Dates</label>
+                <input type="date" id="newOtherDates">
+            </div>
+            <div class="form-group">
+                <label for="newNotes">Notes</label>
+                <input type="text" id="newNotes" placeholder="Add any special notes...">
+            </div>
+            <button type="submit" class="save-btn">Add Contact</button>
+        </form>
     </div>
 
     <div class="contacts-grid" id="contacts-grid"></div>
@@ -176,105 +256,37 @@
                 </div>
                 <button type="submit" class="save-btn">Save Details</button>
             </form>
-            <button class ="dismiss-btn" onclick = "dismissContact()">Dismiss Contact</button>
+            <button class="dismiss-btn" onclick="dismissContact()">Dismiss Contact</button>
         </div>
     </div>
 
-    <style>
-        .dismiss-btn {
-            background-color: #ff3333;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-    
-        .dismiss-btn:hover {
-            background-color: #cc0000;
-        }
-    </style>
-
     <script>
-        const rohitContacts = [
-            { name: "Abdul", phone: "+91 98402 45678" },
-            { name: "Abishek", phone: "+91 70108 20170" },
-            { name: "Abu", phone: "+91 88486 29668" },
-            { name: "Akshith", phone: "+91 97895 12345" },
-            { name: "Annoiii", phone: "+91 63746 45194" },
-            { name: "Antony Athai", phone: "+91 93675 65432" },
-            { name: "Brindhaa Akka", phone: "+91 99406 10311" },
-            { name: "Chris", phone: "+91 98673 98765" },
-            { name: "Dheeraj", phone: "+91 89250 57349" },
-            { name: "ECM Hari", phone: "+91 81227 72605" },
-            { name: "Gauri", phone: "+91 80115 89604" },
-            { name: "Goodwin", phone: "+91 78240 77755" },
-            { name: "Gugan", phone: "+91 98400 65432" },
-            { name: "Harshinii", phone: "+91 87789 22373" },
-            { name: "Hema", phone: "+91 93452 69232" },
-            { name: "Kartikk", phone: "+91 97362 76543" },
-            { name: "Kashyyyy", phone: "+91 98985 45678" },
-            { name: "Kratika", phone: "+91 91251 63458" },
-            { name: "Gomathi", phone: "+91 96789 76543" },
-            { name: "Madhav", phone: "+91 99673 89012" }
-        ];
-
-        const hemaContacts = [
-    { name: "Aishuu", phone: "+91 87544 72761" },
-    { name: "Amma", phone: "+91 98402 49455" },
-    { name: "Appa", phone: "+91 98402 30455" },
-    { name: "Begumm", phone: "+91 97900 06583" },
-    { name: "Catherine", phone: "+91 94883 91184" },
-    { name: "Dharni", phone: "+91 88070 56304" },
-    { name: "Didi", phone: "+91 96772 78404" },
-    { name: "Divya", phone: "+91 80724 41695" },
-    { name: "Giriii", phone: "+91 90803 24400" },
-    { name: "Hansi", phone: "+91 97895 07636" },
-    { name: "Harshini", phone: "+91 87789 22373" },
-    { name: "Janani", phone: "+91 80562 88758" },
-    { name: "Janie", phone: "+91 95973 28989" },
-    { name: "Kailash", phone: "+91 90430 05295" },
-    { name: "Krithiii", phone: "+91 95979 65185" },
-    { name: "Madhu", phone: "+91 94456 24087" },
-    { name: "Mahaa", phone: "+91 91766 64637" },
-    { name: "Mishii", phone: "+91 76039 92371" },
-    { name: "Nithish", phone: "+91 91765 86775" },
-    { name: "Priya", phone: "+91 99420 50391" },
-    { name: "Rohan", phone: "+91 96000 92381" },
-    { name: "Rohit", phone: "+91 86374 68971" },
-    { name: "Sanjeev Anna", phone: "+91 98404 27250" },
-    { name: "Srisenthil", phone: "+91 77087 95344" },
-    { name: "TSK mama", phone: "+91 99004 99247" },
-    { name: "Varsha", phone: "+91 99625 86268" },
-    { name: "Zohra", phone: "+91 99400 24397" }
-];
-
         let selectedContact = null;
         const contactsGrid = document.getElementById("contacts-grid");
         const modal = document.getElementById("contactModal");
         const modalContactName = document.getElementById("modalContactName");
         const contactDetailsForm = document.getElementById("contactDetailsForm");
+        const addContactForm = document.getElementById("addContactForm");
+        const newContactForm = document.getElementById("newContactForm");
 
         // Load contacts data from localStorage or initialize empty object
         let contactsData = JSON.parse(localStorage.getItem("contactsData")) || {};
 
+        function toggleAddContactForm() {
+            addContactForm.classList.toggle('active');
+        }
+
         function createContactCards() {
             contactsGrid.innerHTML = "";
-            // Determine which contacts to show based on email type
-            const contactsType = localStorage.getItem("contactsType");
-            const contacts = contactsType === "hema" ? hemaContacts : rohitContacts;
-            
-            contacts.forEach(contact => {
+            Object.keys(contactsData).forEach(name => {
+                const contact = contactsData[name];
                 const card = document.createElement("div");
                 card.className = "contact-card";
                 card.innerHTML = `
-                    <div class="contact-name">${contact.name}</div>
-                    <div class="contact-phone">${contact.phone}</div>
+                    <div class="contact-name">${name}</div>
+                    <div class="contact-phone">${contact.phone ? contact.phone : 'No phone number'}</div>
                 `;
-                card.onclick = () => openModal(contact);
+                card.onclick = () => openModal({ name: name, phone: contact.phone });
                 contactsGrid.appendChild(card);
             });
         }
@@ -288,18 +300,15 @@
             selectedContact = contact;
             modalContactName.textContent = contact.name;
             
-            // Load existing data if available
-            const contactData = contactsData[contact.name] || [];
+            const contactData = contactsData[contact.name];
             const form = document.getElementById("contactDetailsForm");
-            form.reset(); // Clear previous data
+            form.reset();
 
-            // Fill in existing data if available
-            if (contactData.length > 0) {
-                const data = contactData[0];
-                if (data.birthday) document.getElementById("birthday").value = data.birthday;
-                if (data.anniversary) document.getElementById("anniversary").value = data.anniversary;
-                if (data.otherDates) document.getElementById("otherDates").value = data.otherDates;
-                if (data.notes) document.getElementById("notes").value = data.notes;
+            if (contactData) {
+                if (contactData.birthday) document.getElementById("birthday").value = contactData.birthday;
+                if (contactData.anniversary) document.getElementById("anniversary").value = contactData.anniversary;
+                if (contactData.otherDates) document.getElementById("otherDates").value = contactData.otherDates;
+                if (contactData.notes) document.getElementById("notes").value = contactData.notes;
             }
 
             modal.style.display = "flex";
@@ -314,7 +323,6 @@
         }
 
         function updateCalendarEvents(name, events) {
-            // First, remove all existing events for this contact
             let calendarEvents = JSON.parse(localStorage.getItem("calendarEvents")) || {};
             Object.keys(calendarEvents).forEach(date => {
                 if (calendarEvents[date].includes(name)) {
@@ -327,7 +335,6 @@
                 }
             });
 
-            // Add new events
             events.forEach(event => {
                 const formattedDate = formatDate(event.date);
                 const eventText = `${name}: ${event.event}`;
@@ -343,6 +350,59 @@
             localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
         }
 
+        newContactForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById("newName").value.trim();
+            const phone = document.getElementById("newPhone").value.trim();
+            const birthday = document.getElementById("newBirthday").value;
+            const anniversary = document.getElementById("newAnniversary").value;
+            const otherDates = document.getElementById("newOtherDates").value;
+            const notes = document.getElementById("newNotes").value;
+
+            // Prevent adding contacts with empty name or phone
+            if (!name) {
+                alert('Please enter a valid name.');
+                return;
+            }
+            if (!phone) {
+                alert('Please enter a phone number.');
+                return;
+            }
+
+            // Store the contact data
+            contactsData[name] = {
+                phone: phone,
+                birthday: birthday,
+                anniversary: anniversary,
+                otherDates: otherDates,
+                notes: notes
+            };
+
+            // Save to localStorage
+            localStorage.setItem("contactsData", JSON.stringify(contactsData));
+
+            // Prepare events for calendar
+            const events = [];
+            if (birthday) {
+                events.push({ date: birthday, event: "Birthday" });
+            }
+            if (anniversary) {
+                events.push({ date: anniversary, event: "Anniversary" });
+            }
+            if (otherDates) {
+                events.push({ date: otherDates, event: notes || "Important Date" });
+            }
+
+            // Update calendar events
+            updateCalendarEvents(name, events);
+
+            alert("Contact added successfully! Calendar has been updated.");
+            newContactForm.reset();
+            addContactForm.classList.remove('active');
+            createContactCards();
+        });
+
         contactDetailsForm.addEventListener("submit", function(e) {
             e.preventDefault();
             
@@ -351,15 +411,14 @@
             const otherDates = document.getElementById("otherDates").value;
             const notes = document.getElementById("notes").value;
 
-            // Store the data
-            contactsData[selectedContact.name] = [
-                {
-                    birthday: birthday,
-                    anniversary: anniversary,
-                    otherDates: otherDates,
-                    notes: notes
-                }
-            ];
+            // Update the contact data
+            contactsData[selectedContact.name] = {
+                ...contactsData[selectedContact.name],
+                birthday: birthday,
+                anniversary: anniversary,
+                otherDates: otherDates,
+                notes: notes
+            };
 
             // Save to localStorage
             localStorage.setItem("contactsData", JSON.stringify(contactsData));
@@ -381,7 +440,32 @@
 
             alert("Contact details saved successfully! Calendar has been updated.");
             closeModal();
+            createContactCards();
         });
+
+        function dismissContact() {
+            if (!selectedContact) return;
+
+            const confirmDelete = confirm(`Are you sure you want to dismiss ${selectedContact.name}?`);
+            if (!confirmDelete) return;
+
+            // Remove contact from localStorage
+            delete contactsData[selectedContact.name];
+            localStorage.setItem("contactsData", JSON.stringify(contactsData));
+
+            // Remove the contact from the calendar
+            let calendarEvents = JSON.parse(localStorage.getItem("calendarEvents")) || {};
+            Object.keys(calendarEvents).forEach(date => {
+                if (calendarEvents[date].includes(selectedContact.name)) {
+                    delete calendarEvents[date];
+                }
+            });
+            localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
+
+            alert(`${selectedContact.name} has been dismissed and removed from the contacts & calendar.`);
+            closeModal();
+            createContactCards();
+        }
 
         // Close modal when clicking outside
         window.onclick = function(event) {
@@ -392,36 +476,6 @@
 
         // Initialize the contact cards
         createContactCards();
-
-        function dismissContact() {
-        if (!selectedContact) return;
-
-        const confirmDelete = confirm(`Are you sure you want to dismiss ${selectedContact.name}?`);
-        if (!confirmDelete) return;
-
-        // Remove contact from localStorage
-        delete contactsData[selectedContact.name];
-        localStorage.setItem("contactsData", JSON.stringify(contactsData));
-
-        // Remove contact from the displayed list
-        const contactsType = localStorage.getItem("contactsType");
-        let contacts = contactsType === "hema" ? hemaContacts : rohitContacts;
-        contacts = contacts.filter(contact => contact.name !== selectedContact.name);
-        
-        // Remove the contact from the calendar
-        let calendarEvents = JSON.parse(localStorage.getItem("calendarEvents")) || {};
-        Object.keys(calendarEvents).forEach(date => {
-            if (calendarEvents[date].includes(selectedContact.name)) {
-                delete calendarEvents[date];
-            }
-        });
-        localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
-
-        alert(`${selectedContact.name} has been dismissed and removed from the contacts & calendar.`);
-        closeModal();
-        createContactCards(); // Refresh the list
-    }
-        
     </script>
 </body>
 </html>

@@ -205,27 +205,23 @@
             </div>
 
             <div class="question">
-                <p>Do you express appreciation for your loved ones?</p>
+                <p>Do you feel comfortable sharing your true thoughts and feelings with your partner?</p>
                 <div class="options">
                     <div class="radio-group">
-                        <input type="radio" id="q3-1" name="appreciation" value="1">
-                        <label for="q3-1">1</label>
+                        <input type="radio" id="q3-1" name="appreciation" value="always">
+                        <label for="q3-1">Always</label>
                     </div>
                     <div class="radio-group">
-                        <input type="radio" id="q3-2" name="appreciation" value="2">
-                        <label for="q3-2">2</label>
+                        <input type="radio" id="q3-2" name="appreciation" value="sometimes">
+                        <label for="q3-2">Sometimes</label>
                     </div>
                     <div class="radio-group">
-                        <input type="radio" id="q3-3" name="appreciation" value="3">
-                        <label for="q3-3">3</label>
+                        <input type="radio" id="q3-3" name="appreciation" value="rarely">
+                        <label for="q3-3">Rarely</label>
                     </div>
                     <div class="radio-group">
-                        <input type="radio" id="q3-4" name="appreciation" value="4">
-                        <label for="q3-4">4</label>
-                    </div>
-                    <div class="radio-group">
-                        <input type="radio" id="q3-5" name="appreciation" value="5">
-                        <label for="q3-5">5</label>
+                        <input type="radio" id="q3-4" name="appreciation" value="never">
+                        <label for="q3-4">Never</label>
                     </div>
                 </div>
             </div>
@@ -275,27 +271,45 @@
             </div>
 
             <div class="question">
-                <p>How often do you spend quality time with loved ones?</p>
+                <p>When there's a conflict, does your partner listen to your perspective?</p>
                 <div class="options">
                     <div class="radio-group">
-                        <input type="radio" id="q6-1" name="quality_time" value="1">
-                        <label for="q6-1">1</label>
+                        <input type="radio" id="q6-1" name="quality_time" value="always">
+                        <label for="q6-1">Always</label>
                     </div>
                     <div class="radio-group">
-                        <input type="radio" id="q6-2" name="quality_time" value="2">
-                        <label for="q6-2">2</label>
+                        <input type="radio" id="q6-2" name="quality_time" value="sometimes">
+                        <label for="q6-2">Sometimes</label>
                     </div>
                     <div class="radio-group">
-                        <input type="radio" id="q6-3" name="quality_time" value="3">
-                        <label for="q6-3">3</label>
+                        <input type="radio" id="q6-3" name="quality_time" value="rarely">
+                        <label for="q6-3">Rarely</label>
                     </div>
                     <div class="radio-group">
-                        <input type="radio" id="q6-4" name="quality_time" value="4">
-                        <label for="q6-4">4</label>
+                        <input type="radio" id="q6-4" name="quality_time" value="never">
+                        <label for="q6-4">Never</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <p>Does your partner apologize and take responsibility when they are wrong?</p>
+                <div class="options">
+                    <div class="radio-group">
+                        <input type="radio" id="q7-1" name="apology" value="always">
+                        <label for="q7-1">Always</label>
                     </div>
                     <div class="radio-group">
-                        <input type="radio" id="q6-5" name="quality_time" value="5">
-                        <label for="q6-5">5</label>
+                        <input type="radio" id="q7-2" name="apology" value="sometimes">
+                        <label for="q7-2">Sometimes</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="q7-3" name="apology" value="rarely">
+                        <label for="q7-3">Rarely</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="q7-4" name="apology" value="never">
+                        <label for="q7-4">Never</label>
                     </div>
                 </div>
             </div>
@@ -333,6 +347,7 @@
                 conflict_handling: document.querySelector('input[name="conflict_handling"]:checked')?.value,
                 feeling_valued: document.querySelector('input[name="feeling_valued"]:checked')?.value,
                 quality_time: document.querySelector('input[name="quality_time"]:checked')?.value,
+                apology: document.querySelector('input[name="apology"]:checked')?.value,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 userId: localStorage.getItem('loggedInUser') || 'anonymous'
             };

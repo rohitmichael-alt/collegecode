@@ -311,7 +311,7 @@
             // Save to Firestore
             db.collection('preferences_responses').add(formData)
                 .then(() => {
-                    alert('Thank you for completing the survey!');
+                    alert('Thank you for completing the survey!\nCome back later to improve your scores and strengthen your relationship!');
                     window.location.href = 'surveys.html';
                 })
                 .catch((error) => {
