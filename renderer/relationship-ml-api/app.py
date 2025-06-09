@@ -3,9 +3,10 @@ from flask_cors import CORS
 import pickle  
 import joblib
 import numpy as np
+import os  # added for PORT config
 
 app = Flask(__name__)
-CORS(app)  # So frontend (Vercel) can access this
+CORS(app)  # So frontend (Vercel/Electron) can access this
 
 # Load your model and label encoder
 model = joblib.load('relationship_model.pkl')
@@ -27,4 +28,5 @@ def predict():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Get port from Render
+    app.run(host='0.0.0.0', port=port, debug=True)  # Make app accessible publicly
